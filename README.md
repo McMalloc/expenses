@@ -60,6 +60,24 @@ Wird benötigt für Produktivumgebung und Testing mit Service Worker
   - Lokaler Port: *6984*
 - Autostart einrichten für `%LocalAppData%\Expenses\expenses.vbs` (Verknüpfung in `C:\Users\%USER%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup` anlegen)
 
+## Backups
+Backups brauchen eine zweite CouchDB Instanz, am einfachsten mit Docker
+- Docker Desktop installieren
+- Docker Desktop starten und prüfen ob alles "grün" ist
+```
+docker create ^
+  --name couchdb-expenses-backup ^
+  -v C:\Users\User\Backup\expenses-backup:/opt/couchdb/data ^
+  -p 5985:5984 ^
+  -p 6984:6984 ^
+  -e COUCHDB_USER=admin-backup ^
+  -e COUCHDB_PASSWORD=<Passwort> ^
+  apache/couchdb:3
+  ```
+- Erstellten Container in Docker Desktop starten
+- `http://localhost:5985/_utils` &rarr; *Setup* &rarr; *Setup Single Node*
+- curl installieren
+
 # Entwicklung
 ## Klon von PROD nach DEV machen
 In Fauxton auf *Replication* klicken. Dort diese Einstellungen eingeben:
